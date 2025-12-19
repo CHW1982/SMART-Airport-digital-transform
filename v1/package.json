@@ -13,7 +13,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://cchw1982.github.io/smart_airport_Digital_Transformation",
+  "homepage": "https://chw1982.github.io/SMART-Airport-digital-transform",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "react": "^18.2.0",
