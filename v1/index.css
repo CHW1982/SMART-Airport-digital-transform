@@ -1,0 +1,29 @@
+/* Smart Airport Digital Transformation - Global Styles */
+
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles and Overrides */
+@layer base {
+    body {
+        background-color: #f8fafc;
+        /* Subtle grid pattern */
+        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+}
+
+@layer utilities {
+
+    /* Hide scrollbar for clean horizontal scroll */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}

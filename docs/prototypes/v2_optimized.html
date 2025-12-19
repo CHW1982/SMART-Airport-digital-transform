@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高雄機場智慧轉型架構簡報 v2</title>
+    <meta name="description" content="高雄機場數位轉型架構藍圖 - 從數據驅動到智慧決策">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e293b;
+            /* Slate 800 */
+            --secondary: #3b82f6;
+            /* Blue 500 */
+            --accent-smart: #8b5cf6;
+            /* Purple 500 */
+            --accent-green: #10b981;
+            /* Emerald 500 */
+            --bg-slide: #ffffff;
+            --text-main: #334155;
+            --slide-width: 1280px;
+            --slide-height: 720px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            font-family: 'Noto Sans TC', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Slide Container */
+        .slide {
+            width: var(--slide-width);
+            height: var(--slide-height);
+            background: var(--bg-slide);
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            page-break-after: always;
+            /* Critical for PDF generation */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Common Elements */
+        .header {
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .page-num {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            flex: 1;
+            padding: 0 60px 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin: 0 0 30px 0;
+            border-left: 8px solid var(--secondary);
+            padding-left: 20px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p,
+        li {
+            font-size: 1.2rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* Slide 1: Cover */
+        .cover-slide {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-slide h1 {
+            color: white;
+            font-size: 4rem;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-slide h2 {
+            color: #94a3b8;
+            font-size: 1.8rem;
+            border: none;
+            padding: 0;
+            font-weight: 300;
+            margin-top: 20px;
+        }
+
+        .pyramid-graphic {
+            margin-top: 50px;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 160px solid var(--secondary);
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+        }
+
+        /* Layouts */
+        .cols-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .cols-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        /* Cards */
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            border-top: 5px solid var(--secondary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-smart {
+            border-color: var(--accent-smart);
+        }
+
+        .card-green {
+            border-color: var(--accent-green);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #cbd5e1;
+            z-index: 0;
+        }
+
+        .t-step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            flex: 1;
+        }
+
+        .t-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .t-active .t-circle {
+            background: var(--secondary);
+            box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Speaker Notes (Hidden in Print by default, can be toggled via CSS media query if needed) */
+        .speaker-notes {
+            width: var(--slide-width);
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            padding: 15px 30px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            color: #78350f;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Cycle Diagram - Improved Layout */
+        .cycle-container {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .cycle-box {
+            width: 220px;
+            padding: 20px;
+            background: white;
+            border-radius: 50%;
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border: 4px solid var(--accent-smart);
+            z-index: 2;
+        }
+
+        .cycle-box.rms {
+            border-color: var(--accent-green);
+        }
+
+        .cycle-box.acdm {
+            border-color: var(--accent-smart);
+        }
+
+        .cycle-arrow {
+            font-size: 3rem;
+            color: #cbd5e1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        @media print {
+            body {
+                background: none;
+                margin: 0;
+            }
+
+            .slide {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .speaker-notes {
+                display: none;
+            }
+
+            /* Hide notes in PDF */
+            /* Ensure background colors print */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main role="main">
+
+        <!-- Slide 1: Vision -->
+        <div class="slide cover-slide">
+            <div class="content">
+                <div class="pyramid-graphic" role="img" aria-label="智慧機場金字塔圖示"></div>
+                <h1 style="margin-top: 30px;">數據驅動，智飛未來</h1>
+                <h2>高雄機場智慧轉型架構藍圖</h2>
+                <div style="margin-top: 50px; font-size: 1.2rem; opacity: 0.8;">
+                    目標：打造具備「感知、分析、預測、行動」的智慧機場
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong>
+            各位長官、評審委員大家好。今天我們將展示高雄機場如何透過數位轉型，從傳統的基礎建設管理者，蛻變為數據驅動的智慧樞紐。這套架構不只是系統的疊加，而是將各自獨立的數據孤島串聯成一個有機的生態系，透過四層架構的深度整合，實現我們對『智慧機場
+            (Smart Airport)』的承諾。
+        </div>
+
+        <!-- Slide 2: Evolution -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">02 / 10</span>
+            </div>
+            <div class="content">
+                <h2>數位演進歷程：由自動化邁向智慧化</h2>
+                <div class="timeline">
+                    <div class="t-step">
+                        <div class="t-circle">1.0</div>
+                        <h3>基礎設施</h3>
+                        <p style="font-size: 1rem;">電力(PMS)<br>空調(HVAC)<br>航管(ATC)</p>
+                    </div>
+                    <div class="t-step">
+                        <div class="t-circle">2.0</div>
+                        <h3>自動化</h3>
+                        <p style="font-size: 1rem;">行李(BHS)<br>航班顯示(FIDS)<br>安防(SCS)</p>
+                    </div>
+                    <div class="t-step">
+                        <div class="t-circle">3.0</div>
+                        <h3>整合化 (Current)</h3>
+                        <p style="font-size: 1rem;">AODB (營運)<br>BAS (建築)<br>數據倉儲</p>
+                    </div>
+                    <div class="t-step t-active">
+                        <div class="t-circle"><i class="fas fa-star" style="font-size: 1.2rem;"></i></div>
+                        <h3 style="color: var(--accent-smart);">4.0 智慧化 (Goal)</h3>
+                        <p style="font-size: 1rem;">ACDMP 協同決策<br>One ID 生物辨識<br>AI 預測模型</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 轉型並非一蹴可幾。我們盤點了現有與新建系統，定義了四個里程碑。從 1.0 的基礎設施聯網，到 2.0 的單點自動化；目前我們正處於建立核心資料庫的 3.0
+            階段。而本計畫的終極目標，是導入 AI 與協同決策，邁向 Airport 4.0，讓系統不僅能『看見』數據，更能『預測』未來。
+        </div>
+
+        <!-- Slide 3: Layer 1 -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">03 / 10</span>
+            </div>
+            <div class="content">
+                <h2>架構層一：全域感知 (數據基石)</h2>
+                <div class="cols-3">
+                    <div class="card">
+                        <i class="fas fa-plane-departure" style="color: var(--primary);"></i>
+                        <h3>航運與外部</h3>
+                        <ul>
+                            <li>ATC 航管訊號</li>
+                            <li>AMHS 氣象資料</li>
+                            <li><strong>GIS & BIM</strong> (4.0)</li>
+                            <li>數位分身基礎</li>
+                        </ul>
+                    </div>
+                    <div class="card card-smart">
+                        <i class="fas fa-fingerprint" style="color: var(--accent-smart);"></i>
+                        <h3>特殊系統 (Smart)</h3>
+                        <ul>
+                            <li>VGDS 泊位引導</li>
+                            <li>BHS 行李追蹤</li>
+                            <li>PAXT 旅客動線</li>
+                            <li>DCS 離境控制</li>
+                        </ul>
+                    </div>
+                    <div class="card card-green">
+                        <i class="fas fa-leaf" style="color: var(--accent-green);"></i>
+                        <h3>設施傳感 (Green)</h3>
+                        <ul>
+                            <li>IoT 電力/照明</li>
+                            <li>HVAC 空調監控</li>
+                            <li>環境監測 (空品)</li>
+                            <li>給排水狀態</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 智慧的基礎在於數據的廣度與深度。在第一層『資料感知』中，我們不僅整合了既有的航管與設施數據，更引入了 GIS 與 BIM 建立空間資訊。值得注意的是，我們將旅客流動
+            (PAXT) 與機坪運作 (AABMS) 數據化，這些成千上萬的傳感器節點，將成為上層決策最真實的依據。
+        </div>
+
+        <!-- Slide 4: Layer 2 -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">04 / 10</span>
+            </div>
+            <div class="content">
+                <h2>架構層二：雙軸營運核心</h2>
+                <div class="cols-2" style="gap: 100px;">
+                    <div style="text-align: center;">
+                        <div
+                            style="width: 250px; height: 250px; background: #dbeafe; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0 auto; border: 10px solid var(--secondary);">
+                            <i class="fas fa-database"
+                                style="font-size: 4rem; color: var(--secondary); margin-bottom: 20px;"></i>
+                            <strong style="font-size: 2rem; color: var(--secondary);">AODB</strong>
+                        </div>
+                        <h3>機場營運資料庫</h3>
+                        <p>航班表的單一真理來源<br>串接航務、地勤與旅客資訊</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div
+                            style="width: 250px; height: 250px; background: #dcfce7; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0 auto; border: 10px solid var(--accent-green);">
+                            <i class="fas fa-building"
+                                style="font-size: 4rem; color: var(--accent-green); margin-bottom: 20px;"></i>
+                            <strong style="font-size: 2rem; color: var(--accent-green);">BAS</strong>
+                        </div>
+                        <h3>智慧建築管理</h3>
+                        <p>設施控制自動化邏輯<br>整合水、電、空調控制</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 數據收集後，需要強大的心臟來處理。在整合層，我們確立了『雙核心』策略。AODB 負責處理所有與『飛機、旅客』有關的動態營運數據；BAS
+            則掌管所有『建築、設備』的靜態設施數據。這兩大系統達到 3.0 標準的整合，是我們能進行跨系統分析的關鍵前提。
+        </div>
+
+        <!-- Slide 5: Layer 3 -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">05 / 10</span>
+            </div>
+            <div class="content">
+                <h2>架構層三：Data Warehouse 數據煉金術</h2>
+                <div style="display: flex; align-items: center; justify-content: center; height: 400px;">
+                    <div style="flex: 1; text-align: center; opacity: 0.6;">
+                        <div style="margin-bottom: 20px;"><i class="fas fa-file-code fa-2x"></i> AODB Raw</div>
+                        <div style="margin-bottom: 20px;"><i class="fas fa-video fa-2x"></i> CCTV Data</div>
+                        <div><i class="fas fa-file-csv fa-2x"></i> IoT Logs</div>
+                    </div>
+                    <div style="font-size: 3rem; color: #94a3b8; margin: 0 30px;">➜</div>
+                    <div
+                        style="flex: 2; background: var(--primary); color: white; padding: 40px; border-radius: 20px; text-align: center;">
+                        <i class="fas fa-filter" style="font-size: 4rem; margin-bottom: 20px; color: #fbbf24;"></i>
+                        <h3>數據中台 (DW)</h3>
+                        <p style="color: #cbd5e1;">清洗 (Cleaning) • 標準化 (Standardization) • API 管理</p>
+                    </div>
+                    <div style="font-size: 3rem; color: #94a3b8; margin: 0 30px;">➜</div>
+                    <div style="flex: 1; text-align: center;">
+                        <div
+                            style="background: var(--accent-smart); color: white; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
+                            AI Training</div>
+                        <div
+                            style="background: var(--secondary); color: white; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
+                            BIS Analytics</div>
+                        <div style="background: var(--accent-green); color: white; padding: 15px; border-radius: 8px;">
+                            Open API</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 擁有數據不代表擁有智慧。第三層的 Data Warehouse
+            是我們的數據煉金爐。它負責儲存歷史數據並進行清洗，解決了過去各系統間格式不一、無法對話的痛點。這裡儲存的數據，將成為訓練 AI 模型與支援商業智慧 (BIS) 分析的高品質燃料。
+        </div>
+
+        <!-- Slide 6: Highlights -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">06 / 10</span>
+            </div>
+            <div class="content">
+                <h2>核心亮點：決策大腦 (ACDMP + RMS)</h2>
+                <div class="cycle-container">
+                    <div class="cycle-box acdm" role="article" aria-label="ACDMP協同決策平台">
+                        <i class="fas fa-brain"
+                            style="font-size: 4rem; color: var(--accent-smart); margin-bottom: 10px;"
+                            aria-hidden="true"></i>
+                        <h3>ACDMP</h3>
+                        <p style="font-size: 0.9rem;">協同決策平台<br><strong>情境模擬 & 預警</strong></p>
+                    </div>
+
+                    <i class="fas fa-arrow-right cycle-arrow" aria-hidden="true"></i>
+
+                    <div class="cycle-box rms" role="article" aria-label="RMS資源管理系統">
+                        <i class="fas fa-cogs" style="font-size: 4rem; color: var(--accent-green); margin-bottom: 10px;"
+                            aria-hidden="true"></i>
+                        <h3>RMS</h3>
+                        <p style="font-size: 0.9rem;">資源管理系統<br><strong>自動分配執行</strong></p>
+                    </div>
+
+                    <div style="position: absolute; top: 350px; font-weight: bold; color: #64748b;">
+                        <i class="fas fa-undo" aria-hidden="true"></i> 閉環控制：監測 ➜ 預警 ➜ 決策 ➜ 執行
+                    </div>
+                </div>
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong>應用場景：</strong> GHMS 預測航班延誤 ➜ ACDMP 計算後續影響 ➜ RMS 自動重新分配登機門
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 這是本次轉型最關鍵的『大腦』。傳統機場依賴人工經驗調度，而我們導入的 ACDMP 能依據即時數據進行情境模擬。例如，當 GHMS 預測某航班將延誤，ACDMP
+            會立即計算對後續航班的影響，並指揮 RMS 自動重新分配停機坪與候機室。這就是 Airport 4.0 的核心：從『被動應變』轉為『主動預測』。
+        </div>
+
+        <!-- Slide 7: Passenger -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">07 / 10</span>
+            </div>
+            <div class="content">
+                <h2>創新應用：無縫旅程 (One ID)</h2>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 40px; border-radius: 12px; border: 2px dashed #cbd5e1;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-passport fa-3x" style="color: #94a3b8;"></i>
+                        <p>傳統報到</p>
+                    </div>
+                    <div style="font-size: 2rem; color: var(--accent-smart);">➜</div>
+                    <div style="text-align: center; background: #f3e8ff; padding: 20px; border-radius: 12px;">
+                        <i class="fas fa-user-check fa-4x" style="color: var(--accent-smart);"></i>
+                        <h3>Biometric Hub</h3>
+                        <p style="margin: 0; font-size: 1rem;">生物辨識中樞<br>(臉部/虹膜)</p>
+                    </div>
+                    <div style="font-size: 2rem; color: var(--accent-smart);">➜</div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-plane-boarding fa-3x" style="color: var(--secondary);"></i>
+                        <p>無感通關</p>
+                    </div>
+                </div>
+                <div class="cols-2" style="margin-top: 30px; height: auto;">
+                    <div class="card">
+                        <i class="fas fa-users" style="color: var(--secondary);"></i>
+                        <h3>QMS 排隊管理</h3>
+                        <p style="font-size: 1rem;">AI 監測安檢人流，預測等待時間，通報航警調度</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-mobile-alt" style="color: var(--secondary);"></i>
+                        <h3>App 3.0 推播</h3>
+                        <p style="font-size: 1rem;">結合 FIDS 2.0，提供個人化登機提醒與導航</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 對旅客而言，智慧意味著便利。我們導入 Biometric Hub，實現 One ID 單一通行證，旅客無需重複出示證件。同時，結合 QMS
+            排隊管理系統，我們能即時預測安檢排隊長度並通報航警調度人力。科技隱形於服務之中，帶給旅客更流暢、無壓力的通關體驗。
+        </div>
+
+        <!-- Slide 8: Sustainability -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">08 / 10</span>
+            </div>
+            <div class="content">
+                <h2>永續發展：IoT 驅動的環境治理</h2>
+                <div class="cols-3">
+                    <div
+                        style="background: #064e3b; color: white; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <i class="fas fa-tint fa-3x" style="color: #34d399;"></i>
+                        <div>
+                            <h3>Smart Water IoT</h3>
+                            <p style="color: #d1fae5; font-size: 1rem;">微量漏水偵測<br>水質即時監測</p>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #064e3b; color: white; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <i class="fas fa-recycle fa-3x" style="color: #34d399;"></i>
+                        <div>
+                            <h3>SWMS 廢棄物</h3>
+                            <p style="color: #d1fae5; font-size: 1rem;">垃圾容量偵測<br>清運路徑最佳化</p>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #ffffff; border: 4px solid #064e3b; padding: 30px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <h3>EMS Dashboard</h3>
+                        <div style="font-size: 3rem; font-weight: 900; color: var(--accent-green);">ESG</div>
+                        <p style="font-size: 1rem; text-align: center;">全機場能耗監控<br>碳足跡追蹤</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 高雄機場不僅要智慧，更要永續。我們在架構中特別納入了 Smart Water 與智慧廢棄物管理等 IoT 應用。這些 4.0 等級的感測器能主動發報異常，配合 EMS
+            能源管理看板，讓我們能精確掌握每一度電、每一滴水的流向，以數據實踐綠色機場的社會責任。
+        </div>
+
+        <!-- Slide 9: Layer 4 -->
+        <div class="slide">
+            <div class="header">
+                <span class="logo">KHH SMART AIRPORT</span>
+                <span class="page-num">09 / 10</span>
+            </div>
+            <div class="content">
+                <h2>架構層四：全方位資訊戰情</h2>
+                <div
+                    style="background: #1e293b; padding: 20px; border-radius: 15px; height: 400px; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px;">
+                    <div style="grid-row: 1 / 3; background: #334155; border-radius: 8px; padding: 20px; color: white;">
+                        <h3 style="color: white; border-bottom: 1px solid #475569; padding-bottom: 10px;">BIS 營運績效</h3>
+                        <div style="height: 250px; display: flex; align-items: flex-end; gap: 10px; padding-top: 20px;">
+                            <div style="flex: 1; background: var(--secondary); height: 60%;"></div>
+                            <div style="flex: 1; background: var(--secondary); height: 80%;"></div>
+                            <div style="flex: 1; background: var(--accent-smart); height: 95%;"></div>
+                            <div style="flex: 1; background: var(--secondary); height: 70%;"></div>
+                        </div>
+                    </div>
+                    <div style="background: #334155; border-radius: 8px; padding: 20px; color: white;">
+                        <h3 style="color: white; font-size: 1.2rem;">MCPS 機動指揮</h3>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <span
+                                style="background: #ef4444; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">ALERT</span>
+                            <span style="font-size: 0.9rem;">安檢線 A 擁塞</span>
+                        </div>
+                    </div>
+                    <div style="background: #334155; border-radius: 8px; padding: 20px; color: white;">
+                        <h3 style="color: white; font-size: 1.2rem;">FIDS / PA</h3>
+                        <p style="font-size: 0.9rem; color: #cbd5e1;">推播：航班 CI-101 改至 Gate 9</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 所有的數據與決策，最終都需要精準傳遞。在應用層，我們為不同對象設計了專屬介面。對管理層，BIS 提供商業洞察；對航務中心，MCPS 整合了指揮通訊；對現場人員，FIDS
+            與 PA 系統確保資訊同步。這確保了從決策端到執行端，資訊流動零時差。
+        </div>
+
+        <!-- Slide 10: Conclusion -->
+        <div class="slide cover-slide" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div class="content">
+                <h1 style="font-size: 3.5rem;">重新定義智慧機場標竿</h1>
+                <div style="display: flex; gap: 40px; justify-content: center; margin-top: 50px;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-bolt fa-3x" style="color: #fbbf24; margin-bottom: 15px;"></i>
+                        <h3 style="color: white;">Efficiency</h3>
+                        <p style="color: #94a3b8; font-size: 1rem;">營運效率</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-shield-alt fa-3x" style="color: var(--secondary); margin-bottom: 15px;"></i>
+                        <h3 style="color: white;">Resilience</h3>
+                        <p style="color: #94a3b8; font-size: 1rem;">韌性抗災</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <i class="fas fa-smile fa-3x" style="color: var(--accent-smart); margin-bottom: 15px;"></i>
+                        <h3 style="color: white;">Experience</h3>
+                        <p style="color: #94a3b8; font-size: 1rem;">旅客體驗</p>
+                    </div>
+                </div>
+                <h2 style="margin-top: 60px; font-size: 1.5rem; border: none; color: #cbd5e1;">懇請 委員會支持，開啟高雄機場智慧新紀元</h2>
+            </div>
+        </div>
+        <div class="speaker-notes">
+            <strong>演講腳本：</strong> 總結來說，這套架構不僅解決了現有的痛點，更為未來 10 年的發展預留了空間。透過 ACDMP 與 RMS 的智慧連動，我們將重新定義機場的營運效率。懇請
+            委員會支持這項轉型計畫，讓我們攜手將高雄機場打造為國內首屈一指的 AI 智慧機場標竿。謝謝各位。
+        </div>
+
+    </main>
+</body>
+
+</html>
