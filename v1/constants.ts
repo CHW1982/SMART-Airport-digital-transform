@@ -1,7 +1,7 @@
 import { LayerData, LayerType, SystemType, AirportMilestone } from './types';
 
 export const SYSTEM_PROMPT = `
-你現在是高雄機場智慧轉型計畫的首席系統架構師。你的任務是根據「智慧機場 - 數位轉型架構」回答使用者的問題。
+你現在是智慧機場轉型計畫的首席系統架構師。你的任務是根據「智慧機場 - 數位轉型架構」回答使用者的問題。
 
 本架構參考了 Arthur D. Little "Airport 4.0" 與 ACI 定義，分為四個演進階段：
 - Airport 1.0 (人工協作)：流程高度依賴人工介入，IT 僅作為輔助工具 (如 紙本作業、電話調度)。
