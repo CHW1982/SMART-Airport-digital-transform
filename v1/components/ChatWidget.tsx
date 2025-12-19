@@ -21,7 +21,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, setIsOpen, activ
         {
             id: 'init',
             role: 'ai',
-            content: '您好！我是高雄機場的 AI 系統架構師。\n\n您可以先**點擊圖表選取系統**，再按右下角按鈕開啟對話，我將為您解釋該系統的功能與數據流向。',
+            content: '您好！我是智慧機場的 AI 系統架構師。\n\n您可以先**點擊圖表選取系統**，再按右下角按鈕開啟對話，我將為您解釋該系統的功能與數據流向。',
             timestamp: Date.now()
         }
     ]);
