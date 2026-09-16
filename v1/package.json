@@ -8,7 +8,7 @@
     "dev": "vite --port 5174",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5174 && electron .\"",
     "electron:build": "npm run build && electron-builder",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
